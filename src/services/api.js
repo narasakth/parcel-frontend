@@ -1,4 +1,4 @@
-const BASE = process.env.REACT_APP_API_BASE_URL || 'http://localhost:4000/api';
+const BASE = process.env.REACT_APP_API_BASE_URL || 'https://parcel-backend-pbyt.onrender.com/api';
 
 function getAccessToken() {
   return localStorage.getItem('accessToken') || '';
