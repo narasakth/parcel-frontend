@@ -18,7 +18,7 @@ async function request(path, options = {}, withAuth = true) {
         const token = getAccessToken();
         if (token) headers.Authorization = `Bearer ${token}`;
     }
-    // การเรียกใช้หลัก: URL ถูกต้องแล้ว (BASE + /api + path)
+    // แก้ไข: รวม /api/ เข้าไปอย่างชัดเจน
     const res = await fetch(`${BASE}/api${path}`, { ...options, headers });
     
     if (res.status === 401 && withAuth) {
@@ -36,7 +36,7 @@ async function request(path, options = {}, withAuth = true) {
 async function tryRefresh() {
     const rt = localStorage.getItem('refreshToken');
     if (!rt) return false;
-    // แก้ไข: เพิ่ม /api เข้าไปใน Path ของ Refresh Token แล้ว
+    // แก้ไข: เพิ่ม /api/auth/ ใน Path ของ Refresh Token แล้ว
     const res = await fetch(`${BASE}/api/auth/refresh`, { 
         method: 'POST',
         headers: { 'Content-Type':'application/json' },
@@ -65,7 +65,7 @@ export const api = {
     },
     me: () => request('/auth/me'),
 
-    // Feedback: แก้ไขปัญหา 404 (URL ถูกต้อง: /api/feedback)
+    // Feedback ที่ทำให้เกิด 404 (Path ถูกต้อง: /api/feedback)
     submitFeedback: (body) => request('/feedback', { method: 'POST', body: JSON.stringify(body) }),
     getParcelFeedback: (parcelId) => request(`/feedback/parcel/${parcelId}`),
 
