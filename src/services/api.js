@@ -1,4 +1,4 @@
-const BASE = process.env.REACT_APP_API_BASE_URL || 'https://parcel-backend-pbyt.onrender.com/api';
+const BASE = process.env.REACT_APP_API_BASE_URL || 'https://parcel-backend-pbyt.onrender.com';
 
 function getAccessToken() {
   return localStorage.getItem('accessToken') || '';
@@ -18,7 +18,7 @@ async function request(path, options = {}, withAuth = true) {
     const token = getAccessToken();
     if (token) headers.Authorization = `Bearer ${token}`;
   }
-  const res = await fetch(`${BASE}${path}`, { ...options, headers });
+  const res = await fetch(`${BASE}/api${path}`, { ...options, headers });
   if (res.status === 401 && withAuth) {
     // ลอง refresh แล้วยิงใหม่
     const ok = await tryRefresh();
